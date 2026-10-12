@@ -4,6 +4,7 @@ import Card from "../../components/Card";
 import EmptyState from "../../components/EmptyState";
 import Modal from "../../components/Modal";
 import { Field, Input, Textarea } from "../../components/FormField";
+import ChatRoom from "../../components/ChatRoom";
 
 export default function Youth() {
   const { state, actions, currentMember } = useApp();
@@ -48,6 +49,14 @@ export default function Youth() {
         <button onClick={() => setOpen(true)} className="btn-primary">
           New post
         </button>
+      </div>
+
+      <div className="mt-8">
+        <ChatRoom
+          room="youth"
+          title="Youth group chat"
+          blurb="One shared space for young members to chat, ask questions and make plans together."
+        />
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-5">

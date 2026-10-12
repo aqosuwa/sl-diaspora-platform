@@ -33,6 +33,12 @@ export default function Profile() {
           <StatusPill status={currentMember.verificationStatus} />
         </div>
 
+        {currentMember.idDoc?.adminNote && currentMember.verificationStatus !== "verified" && (
+          <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-charcoal">
+            <strong>About your ID:</strong> {currentMember.idDoc.adminNote}
+          </p>
+        )}
+
         <dl className="mt-5 grid grid-cols-2 gap-4 text-sm">
           <div>
             <dt className="text-muted">ID reference</dt>

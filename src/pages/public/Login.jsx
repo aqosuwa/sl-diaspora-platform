@@ -12,6 +12,14 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault();
     const found = actions.login(email);
+    if (found && (found.status === "suspended" || found.status === "removed")) {
+      setError(
+        found.status === "suspended"
+          ? "This account is suspended. Contact the High Commission to appeal."
+          : "This account has been removed. Contact the High Commission if you think this is a mistake."
+      );
+      return;
+    }
     if (!found) {
       setError("No account found with that email. Check the address, or register a new account.");
       return;
@@ -20,7 +28,11 @@ export default function Login() {
   }
 
   function quickLogin(memberEmail) {
-    actions.login(memberEmail);
+    const f = actions.login(memberEmail);
+    if (f && (f.status === "suspended" || f.status === "removed")) {
+      setError(f.status === "suspended" ? "This account is suspended. Contact the High Commission to appeal." : "This account has been removed.");
+      return;
+    }
     navigate("/dashboard");
   }
 
@@ -49,7 +61,7 @@ export default function Login() {
         <p className="text-sm font-medium text-ink">Quick sign in</p>
         <p className="text-xs text-mute">Continue as an existing member.</p>
         <div className="mt-3 flex flex-col gap-2">
-          {state.members.map((m) => (
+          {state.members.filter((m) => m.status !== "removed").map((m) => (
             <button
               key={m.id}
               onClick={() => quickLogin(m.email)}
@@ -59,7 +71,7 @@ export default function Login() {
                 <span className="font-medium text-charcoal">{m.fullName}</span>{" "}
                 <span className="text-muted">· {m.city}</span>
               </span>
-              <span className="flex-shrink-0 whitespace-nowrap pl-2 text-xs text-muted">{m.verificationStatus}</span>
+              <span className="flex-shrink-0 whitespace-nowrap pl-2 text-xs text-muted">{m.status === "suspended" ? "suspended" : m.verificationStatus}</span>
             </button>
           ))}
         </div>

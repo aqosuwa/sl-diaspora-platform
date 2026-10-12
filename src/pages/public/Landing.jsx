@@ -19,7 +19,6 @@ const POPULAR = [
   { label: "Request a referral", to: "/referrals" },
   { label: "Browse jobs", to: "/jobs" },
   { label: "Register an account", to: "/register" },
-  { label: "Commission staff login", to: "/admin/login" },
 ];
 
 function Tile({ to, icon, title, body, className = "", tone = "light", children }) {
@@ -76,11 +75,10 @@ export default function Landing() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-14 lg:py-20">
           <div>
             <h1 className="text-[2.35rem] leading-[1.04] sm:text-[3.4rem]">
-              Passports, ID cards and visas, without the trip to the High Commission.
+              {state.siteSettings?.heroHeadline || "Passports, ID cards and visas, without the trip to the High Commission."}
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
-              Apply online, pay by card or mobile money, and follow every step. Find trusted
-              doctors and lawyers in confidence, plus jobs and events in the UK and Sierra Leone.
+              {state.siteSettings?.heroSub || "Apply online and follow every step."}
             </p>
 
             <form onSubmit={handleSearch} className="mt-8 flex max-w-xl rounded-full bg-white p-1.5 shadow-lift">
@@ -236,6 +234,24 @@ export default function Landing() {
           </ol>
         </div>
       </section>
+
+      {/* ---------- FAQ ---------- */}
+      {(state.siteSettings?.faqs || []).length > 0 && (
+        <section className="mx-auto max-w-3xl px-4 pt-14 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl">Common questions</h2>
+          <div className="mt-6 divide-y divide-green-dark/10 rounded-2xl bg-white shadow-card ring-1 ring-green-dark/[0.06]">
+            {state.siteSettings.faqs.map((f) => (
+              <details key={f.id} className="group px-5 py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-charcoal">
+                  {f.q}
+                  <span className="text-xl text-green transition group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ---------- Confidential ---------- */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">

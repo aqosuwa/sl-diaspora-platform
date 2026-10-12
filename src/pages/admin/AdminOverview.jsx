@@ -4,7 +4,7 @@ import AdminNav from "../../components/AdminNav";
 import Card from "../../components/Card";
 
 export default function AdminOverview() {
-  const { state } = useApp();
+  const { state, commissionStaff } = useApp();
 
   const pendingMembers = state.members.filter((m) => m.verificationStatus === "pending").length;
   const pendingPros = state.professionals.filter((p) => p.verificationStatus === "pending").length;
@@ -33,6 +33,9 @@ export default function AdminOverview() {
       <AdminNav />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="font-serif text-3xl font-bold text-charcoal">Commission Dashboard</h1>
+        {commissionStaff && (
+          <p className="mt-1 text-sm font-medium text-green">Signed in as {commissionStaff.name}, {commissionStaff.role}</p>
+        )}
         <p className="mt-1 text-sm text-muted">
           {state.members.length} members · {state.professionals.length} professionals ·{" "}
           {state.jobs.filter((j) => j.status === "published").length} live jobs ·{" "}

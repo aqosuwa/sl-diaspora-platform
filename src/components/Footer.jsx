@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import Icon from "./Icon";
+import { useApp } from "../context/AppContext";
 
 const col = "flex flex-col gap-2.5 text-sm";
 const item = "text-white/70 transition hover:text-white";
 
 export default function Footer() {
+  const { state } = useApp();
+  const contact = state.siteSettings?.contactEmail;
   return (
     <footer className="bg-green-dark text-white">
       <div className="flag-band">
@@ -37,18 +40,26 @@ export default function Footer() {
               <span className="font-semibold text-white">Community</span>
               <Link to="/businesses" className={item}>Business directory</Link>
               <Link to="/events" className={item}>Events &amp; news</Link>
+              <Link to="/community" className={item}>Community chat</Link>
               <Link to="/youth" className={item}>Youth connection</Link>
             </div>
             <div className={col}>
               <span className="font-semibold text-white">Account</span>
               <Link to="/login" className={item}>Log in</Link>
               <Link to="/register" className={item}>Register</Link>
-              <Link to="/admin/login" className={item}>Commission staff login</Link>
             </div>
           </div>
         </div>
         <div className="mt-10 border-t border-white/10 pt-5">
-          <p className="text-xs text-white/55">&copy; 2026 Sierra Leone High Commission, UK</p>
+          <p className="text-xs text-white/55">
+            &copy; 2026 Sierra Leone High Commission, UK
+            {contact && (
+              <>
+                {" "}&middot;{" "}
+                <a href={`mailto:${contact}`} className="underline-offset-2 hover:underline">{contact}</a>
+              </>
+            )}
+          </p>
         </div>
       </div>
     </footer>

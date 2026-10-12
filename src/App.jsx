@@ -1,11 +1,23 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import { MemberRoute, AdminRoute } from "./components/ProtectedRoute";
+import AdminLogin from "./pages/public/AdminLogin";
+import MasterLayout from "./pages/master/MasterLayout";
+import MasterLogin from "./pages/master/MasterLogin";
+import MasterOverview from "./pages/master/MasterOverview";
+import MasterMembers from "./pages/master/MasterMembers";
+import MasterIds from "./pages/master/MasterIds";
+import MasterChats from "./pages/master/MasterChats";
+import MasterReports from "./pages/master/MasterReports";
+import MasterContent from "./pages/master/MasterContent";
+import MasterBroadcast from "./pages/master/MasterBroadcast";
+import MasterStaff from "./pages/master/MasterStaff";
+import MasterAudit from "./pages/master/MasterAudit";
+import Community from "./pages/member/Community";
 
 import Landing from "./pages/public/Landing";
 import Register from "./pages/public/Register";
 import Login from "./pages/public/Login";
-import AdminLogin from "./pages/public/AdminLogin";
 
 import Dashboard from "./pages/member/Dashboard";
 import Consular from "./pages/member/Consular";
@@ -145,6 +157,21 @@ function App() {
             </AdminRoute>
           }
         />
+
+        <Route path="/community" element={<MemberRoute><Community /></MemberRoute>} />
+
+        <Route path="/master/login" element={<MasterLogin />} />
+        <Route path="/master" element={<MasterLayout />}>
+          <Route index element={<MasterOverview />} />
+          <Route path="members" element={<MasterMembers />} />
+          <Route path="ids" element={<MasterIds />} />
+          <Route path="chats" element={<MasterChats />} />
+          <Route path="reports" element={<MasterReports />} />
+          <Route path="content" element={<MasterContent />} />
+          <Route path="broadcast" element={<MasterBroadcast />} />
+          <Route path="staff" element={<MasterStaff />} />
+          <Route path="audit" element={<MasterAudit />} />
+        </Route>
 
         <Route path="*" element={<Landing />} />
       </Route>

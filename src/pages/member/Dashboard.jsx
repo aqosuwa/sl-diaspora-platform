@@ -3,6 +3,7 @@ import { useApp } from "../../context/AppContext";
 import Card from "../../components/Card";
 import StatusPill from "../../components/StatusPill";
 import Icon from "../../components/Icon";
+import { audienceMatches } from "../../data/master";
 
 export default function Dashboard() {
   const { state, currentMember } = useApp();
@@ -10,6 +11,7 @@ export default function Dashboard() {
   const myReferrals = state.referrals.filter((r) => r.memberId === currentMember.id);
   const myJobApplications = state.jobs.filter((j) => j.applicants?.includes(currentMember.id));
   const upcomingEvents = state.events.slice(0, 3);
+  const notices = (state.broadcasts || []).filter((b) => audienceMatches(b, currentMember)).slice(0, 3);
 
   const tiles = [
     {
@@ -59,6 +61,24 @@ export default function Dashboard() {
         </div>
         <StatusPill status={currentMember.verificationStatus} />
       </div>
+
+      {currentMember.idDoc?.adminNote && currentMember.verificationStatus !== "verified" && (
+        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-charcoal">
+          <strong>About your ID:</strong> {currentMember.idDoc.adminNote}
+        </div>
+      )}
+
+      {notices.length > 0 && (
+        <div className="mt-6 space-y-3" aria-label="Notices from the High Commission">
+          {notices.map((b) => (
+            <div key={b.id} className="rounded-2xl border border-blue/20 bg-blue/5 px-4 py-3">
+              <p className="text-sm font-semibold text-blue-dark">{b.title}</p>
+              <p className="mt-0.5 text-sm text-charcoal">{b.body}</p>
+              <p className="mt-1 text-xs text-muted">{new Date(b.at).toLocaleDateString("en-GB")}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {currentMember.verificationStatus === "pending" && (
         <div className="mt-6 rounded-xl border border-gold/30 bg-gold/10 px-4 py-3 text-sm text-charcoal">

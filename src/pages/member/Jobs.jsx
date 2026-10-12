@@ -5,6 +5,7 @@ import Card from "../../components/Card";
 import StatusPill from "../../components/StatusPill";
 import EmptyState from "../../components/EmptyState";
 import Modal from "../../components/Modal";
+import ReportButton from "../../components/ReportButton";
 import { Field, Input, Select, Textarea } from "../../components/FormField";
 
 const emptyJob = {
@@ -105,6 +106,7 @@ export default function Jobs() {
                       {j.company} · {j.city} · {j.type}
                     </p>
                     <p className="mt-2 text-sm text-charcoal/80">{j.description}</p>
+                    <div className="mt-1"><ReportButton kind="job" targetId={j.id} /></div>
                     <div className="mt-2 flex flex-wrap gap-2">
                       <span className="rounded-full bg-black/5 px-2.5 py-1 text-xs text-charcoal">
                         {j.category}

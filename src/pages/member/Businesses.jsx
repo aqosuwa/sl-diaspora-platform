@@ -5,6 +5,7 @@ import Card from "../../components/Card";
 import StatusPill from "../../components/StatusPill";
 import EmptyState from "../../components/EmptyState";
 import Modal from "../../components/Modal";
+import ReportButton from "../../components/ReportButton";
 import { Field, Input, Select, Textarea } from "../../components/FormField";
 
 const CATEGORIES = [
@@ -87,6 +88,7 @@ export default function Businesses() {
                 {b.category} · {b.city}
               </p>
               <p className="mt-2 text-sm text-charcoal/80">{b.description}</p>
+              <div className="mt-2"><ReportButton kind="business" targetId={b.id} /></div>
             </Card>
           ))
         )}

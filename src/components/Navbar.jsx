@@ -11,6 +11,7 @@ const memberLinks = [
   { to: "/jobs", label: "Jobs" },
   { to: "/businesses", label: "Businesses" },
   { to: "/events", label: "Events" },
+  { to: "/community", label: "Community" },
   { to: "/youth", label: "Youth" },
 ];
 
@@ -30,18 +31,20 @@ const mobileLinkClass = ({ isActive }) =>
   `rounded-xl px-3 py-3 text-base font-semibold ${isActive ? "bg-green-50 text-green" : "text-ink/80"}`;
 
 export default function Navbar() {
-  const { currentMember, state, actions } = useApp();
+  const { currentMember, currentStaff, state, actions } = useApp();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const loggingOut = useRef(false);
-  const isAdmin = state.session.isAdmin;
+  const isStaff = !!currentStaff;
+  const isAdmin = state.session.isAdmin || isStaff;
 
   // Clear the session only after we have actually landed on the homepage,
   // so the route guards on the page we are leaving never redirect to /login.
   function clearSession() {
-    if (isAdmin) actions.logoutAdmin();
+    if (isStaff) actions.logoutStaff();
+    else if (isAdmin) actions.logoutAdmin();
     else actions.logout();
   }
 
@@ -71,7 +74,16 @@ export default function Navbar() {
     setQuery("");
   }
 
-  const links = currentMember ? memberLinks : isAdmin ? [{ to: "/admin", label: "Admin dashboard" }] : publicLinks;
+  const links = currentMember
+    ? memberLinks
+    : isStaff
+    ? [
+        { to: "/master", label: "Master admin" },
+        ...(state.session.isAdmin ? [{ to: "/admin", label: "Commission desk" }] : []),
+      ]
+    : isAdmin
+    ? [{ to: "/admin", label: "Commission desk" }]
+    : publicLinks;
   const initial = currentMember ? currentMember.fullName.trim()[0] : "A";
 
   return (
@@ -99,7 +111,7 @@ export default function Navbar() {
 
           <nav className="ml-6 hidden items-center gap-0.5 lg:flex" aria-label="Main">
             {links.map((l) => (
-              <NavLink key={l.to} to={l.to} end={l.to === "/admin"} className={linkClass}>
+              <NavLink key={l.to} to={l.to} end={l.to === "/admin" || l.to === "/master"} className={linkClass}>
                 {l.label}
               </NavLink>
             ))}
@@ -137,7 +149,7 @@ export default function Navbar() {
                 onClick={handleLogout}
                 className="whitespace-nowrap rounded-full border-[1.5px] border-green-dark/15 px-4 py-2 text-sm font-semibold text-green-dark transition hover:border-green hover:bg-green-50"
               >
-                <span>Log out<span className="hidden sm:inline">{isAdmin ? " of admin" : ""}</span></span>
+                <span>Log out<span className="hidden sm:inline">{isAdmin ? " of staff" : ""}</span></span>
               </button>
             )}
             {!currentMember && !isAdmin && (
@@ -183,7 +195,7 @@ export default function Navbar() {
             </form>
             <div className="flex flex-col gap-1">
               {links.map((l) => (
-                <NavLink key={l.to} to={l.to} end={l.to === "/admin"} className={mobileLinkClass}>
+                <NavLink key={l.to} to={l.to} end={l.to === "/admin" || l.to === "/master"} className={mobileLinkClass}>
                   {l.label}
                 </NavLink>
               ))}

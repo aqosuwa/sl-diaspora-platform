@@ -53,6 +53,33 @@ const PATHS = {
   shield: (
     <path d="M12 3.5 5 6v6c0 4.2 3 7 7 8.5 4-1.5 7-4.3 7-8.5V6l-7-2.5Z" />
   ),
+  home: <path d="M4 11l8-7 8 7M6 10v10h12V10" />,
+  users: (
+    <>
+      <circle cx="9" cy="8" r="3.2" />
+      <path d="M3 20c.4-3.4 3-5.2 6-5.2s5.6 1.8 6 5.2" />
+      <path d="M16 5.2a3 3 0 010 5.6M18 14.8c1.8.6 3 2.2 3.2 5" />
+    </>
+  ),
+  idcard: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2.5" />
+      <circle cx="8.5" cy="11" r="2" />
+      <path d="M5.8 16c.5-1.3 1.600-1.900 2.700-1.900s2.200.6 2.700 1.900M14 9.500h4M14 13h4" />
+    </>
+  ),
+  chat: <path d="M4 5h16v11H9l-5 4V5z" />,
+  flag: <path d="M6 21V4M6 5h12l-2 4 2 4H6" />,
+  edit: <path d="M4 20h4L19 9l-4-4L4 16v4zM13.500 6.500l4 4" />,
+  megaphone: <path d="M4 10v4h3l8 4V6L7 10H4zM18 9a4 4 0 010 6" />,
+  key: (
+    <>
+      <circle cx="8" cy="15" r="4" />
+      <path d="M11 12l9-9M16 7l3 3M14 9l2 2" />
+    </>
+  ),
+  list: <path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" />,
+  check: <path d="M5 12.500l4.500 4.500L19 7" />,
   arrowRight: <path d="M4 12h16M14 6l6 6-6 6" />,
   close: <path d="M5 5l14 14M19 5L5 19" />,
   search: (
