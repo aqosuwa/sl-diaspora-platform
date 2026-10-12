@@ -37,7 +37,7 @@ export default function Referrals() {
     <div className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-charcoal">Confidential Referrals</h1>
+          <h1 className="font-serif text-3xl font-bold text-charcoal">Confidential Referrals</h1>
           <p className="mt-1 text-sm text-muted">
             Request a trusted, verified professional. Visible only to you and Commission caseworkers.
           </p>

@@ -39,7 +39,7 @@ export default function AdminConsular() {
     <div>
       <AdminNav />
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <h1 className="font-serif text-2xl font-bold text-charcoal">Consular Case Management</h1>
+        <h1 className="font-serif text-3xl font-bold text-charcoal">Consular Case Management</h1>
         <p className="mt-1 text-sm text-muted">Review and progress passport, visa, and travel document cases.</p>
 
         <div className="mt-6 space-y-3">
@@ -90,7 +90,7 @@ export default function AdminConsular() {
                     <StatusPill status={c.status} />
                     <button
                       onClick={() => openUpdate(c)}
-                      className="rounded-lg bg-blue px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-dark"
+                      className="rounded-full bg-blue px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-blue-dark"
                     >
                       Update
                     </button>

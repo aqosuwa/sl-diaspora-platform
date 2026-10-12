@@ -48,7 +48,7 @@ export default function AdminContent() {
       <div className="mx-auto max-w-5xl px-4 py-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-serif text-2xl font-bold text-charcoal">Events & News</h1>
+            <h1 className="font-serif text-3xl font-bold text-charcoal">Events & News</h1>
             <p className="mt-1 text-sm text-muted">Publish community events and Commission announcements.</p>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function AdminContent() {
             <h2 className="font-serif text-lg font-semibold text-charcoal">Events</h2>
             <button
               onClick={() => setEventOpen(true)}
-              className="rounded-lg bg-green px-3 py-1.5 text-sm font-semibold text-white hover:bg-green-dark"
+              className="rounded-full bg-green px-4 py-2 text-sm font-semibold text-white shadow-card hover:bg-green-dark"
             >
               + Add Event
             </button>
@@ -92,7 +92,7 @@ export default function AdminContent() {
             <h2 className="font-serif text-lg font-semibold text-charcoal">News</h2>
             <button
               onClick={() => setNewsOpen(true)}
-              className="rounded-lg bg-green px-3 py-1.5 text-sm font-semibold text-white hover:bg-green-dark"
+              className="rounded-full bg-green px-4 py-2 text-sm font-semibold text-white shadow-card hover:bg-green-dark"
             >
               + Add News
             </button>

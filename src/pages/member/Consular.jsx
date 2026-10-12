@@ -160,7 +160,7 @@ export default function Consular() {
     <div className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-ink">Consular services</h1>
+          <h1 className="font-serif text-3xl font-bold text-ink">Consular services</h1>
           <p className="mt-1 text-sm text-mute">
             Apply for a new passport, renew a passport or National ID card, apply for a visa, or request
             an emergency travel certificate — pay online and track every step.
@@ -176,7 +176,7 @@ export default function Consular() {
           <button
             key={t}
             onClick={() => openNew(t)}
-            className="flex items-center gap-3 rounded-lg border border-black/10 bg-white px-4 py-3 text-left transition hover:border-green/40 hover:bg-green-50"
+            className="flex items-center gap-3 rounded-2xl bg-white shadow-card ring-1 ring-green-dark/[0.06] px-4 py-3 text-left transition hover:border-green/40 hover:bg-green-50"
           >
             <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-green-50 text-green">
               <Icon name="passport" size={18} />

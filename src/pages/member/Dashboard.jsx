@@ -46,7 +46,7 @@ export default function Dashboard() {
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-charcoal">
+          <h1 className="font-serif text-3xl font-bold text-charcoal">
             Welcome back, {currentMember.fullName.split(" ")[0]}
           </h1>
           <p className="mt-1 text-sm text-muted">

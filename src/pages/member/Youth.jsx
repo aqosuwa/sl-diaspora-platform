@@ -40,7 +40,7 @@ export default function Youth() {
     <div className="mx-auto max-w-5xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-charcoal">Youth connection</h1>
+          <h1 className="font-serif text-3xl font-bold text-charcoal">Youth connection</h1>
           <p className="mt-1 text-sm text-muted">
             Ask for mentorship, share ideas, and find events for second-generation members.
           </p>

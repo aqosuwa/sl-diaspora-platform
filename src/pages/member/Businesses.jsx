@@ -50,7 +50,7 @@ export default function Businesses() {
     <div className="mx-auto max-w-5xl px-4 py-10">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-serif text-2xl font-bold text-charcoal">Business Directory</h1>
+          <h1 className="font-serif text-3xl font-bold text-charcoal">Business Directory</h1>
           <p className="mt-1 text-sm text-muted">Sierra Leonean-owned businesses across the UK.</p>
         </div>
         <button

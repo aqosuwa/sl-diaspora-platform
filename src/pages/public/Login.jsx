@@ -25,9 +25,10 @@ export default function Login() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-14">
-      <h1 className="font-serif text-2xl font-bold text-charcoal">Log in</h1>
-      <p className="mt-1 text-sm text-muted">Enter the email you registered with.</p>
+    <div className="mx-auto max-w-md px-4 py-10 sm:py-16">
+    <div className="rounded-3xl bg-white p-6 shadow-lift ring-1 ring-green-dark/[0.06] sm:p-9">
+      <h1 className="font-serif text-3xl font-bold text-charcoal">Welcome back</h1>
+      <p className="mt-1 text-sm text-muted">Log in with the email you registered with.</p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <Field label="Email address">
@@ -44,7 +45,7 @@ export default function Login() {
         </button>
       </form>
 
-      <div className="mt-8 rounded-xl border border-black/10 bg-sand/50 p-4">
+      <div className="mt-8 rounded-2xl bg-cream p-4">
         <p className="text-sm font-medium text-ink">Quick sign in</p>
         <p className="text-xs text-mute">Continue as an existing member.</p>
         <div className="mt-3 flex flex-col gap-2">
@@ -52,13 +53,13 @@ export default function Login() {
             <button
               key={m.id}
               onClick={() => quickLogin(m.email)}
-              className="flex items-center justify-between rounded-lg border border-black/10 bg-white px-3 py-2 text-left text-sm hover:border-green/30 hover:bg-green-50"
+              className="flex items-center justify-between rounded-xl bg-white px-3.5 py-2.5 text-left text-sm shadow-card ring-1 ring-green-dark/[0.06] transition hover:bg-green-50 hover:ring-green/30"
             >
               <span>
                 <span className="font-medium text-charcoal">{m.fullName}</span>{" "}
                 <span className="text-muted">· {m.city}</span>
               </span>
-              <span className="text-xs text-muted">{m.verificationStatus}</span>
+              <span className="flex-shrink-0 whitespace-nowrap pl-2 text-xs text-muted">{m.verificationStatus}</span>
             </button>
           ))}
         </div>
@@ -70,6 +71,7 @@ export default function Login() {
           Create an account
         </Link>
       </p>
+    </div>
     </div>
   );
 }

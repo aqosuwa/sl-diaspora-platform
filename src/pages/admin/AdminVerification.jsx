@@ -36,7 +36,7 @@ export default function AdminVerification() {
     <div>
       <AdminNav />
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <h1 className="font-serif text-2xl font-bold text-charcoal">Verification Queue</h1>
+        <h1 className="font-serif text-3xl font-bold text-charcoal">Verification Queue</h1>
         <p className="mt-1 text-sm text-muted">Approve member and professional accounts.</p>
 
         <div className="mt-8">

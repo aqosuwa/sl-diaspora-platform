@@ -39,7 +39,8 @@ export default function Register() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-14">
+    <div className="mx-auto max-w-lg px-4 py-10 sm:py-16">
+    <div className="rounded-3xl bg-white p-6 shadow-lift ring-1 ring-green-dark/[0.06] sm:p-9">
       <h1 className="font-serif text-2xl font-bold text-charcoal">Join the Platform</h1>
       <p className="mt-1 text-sm text-muted">
         Register as a member of the Sierra Leonean diaspora community in the UK.
@@ -114,6 +115,7 @@ export default function Register() {
           Log in
         </Link>
       </p>
+    </div>
     </div>
   );
 }

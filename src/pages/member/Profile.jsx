@@ -20,7 +20,7 @@ export default function Profile() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="font-serif text-2xl font-bold text-charcoal">My Profile</h1>
+      <h1 className="font-serif text-3xl font-bold text-charcoal">My Profile</h1>
 
       <Card className="mt-6">
         <div className="flex items-center justify-between">

@@ -43,7 +43,7 @@ export default function AdminListings() {
     <div>
       <AdminNav />
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <h1 className="font-serif text-2xl font-bold text-charcoal">Jobs & Business Moderation</h1>
+        <h1 className="font-serif text-3xl font-bold text-charcoal">Jobs & Business Moderation</h1>
         <p className="mt-1 text-sm text-muted">Approve or reject member-submitted listings.</p>
 
         <div className="mt-8">

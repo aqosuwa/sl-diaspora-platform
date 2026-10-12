@@ -12,7 +12,8 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="mx-auto max-w-md px-4 py-20 text-center">
+    <div className="mx-auto max-w-md px-4 py-12 sm:py-20">
+    <div className="text-center rounded-3xl bg-white p-6 shadow-lift ring-1 ring-green-dark/[0.06] sm:p-9">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue/10 text-blue">
         <Icon name="shield" size={22} />
       </span>
@@ -25,7 +26,7 @@ export default function AdminLogin() {
       </p>
       <button
         onClick={handleLogin}
-        className="mt-6 w-full rounded-lg bg-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-dark"
+        className="mt-6 w-full rounded-full bg-blue px-4 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-blue-dark"
       >
         Enter admin dashboard
       </button>
@@ -35,6 +36,7 @@ export default function AdminLogin() {
           Member login
         </Link>
       </p>
+    </div>
     </div>
   );
 }

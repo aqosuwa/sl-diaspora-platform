@@ -14,10 +14,20 @@ const memberLinks = [
   { to: "/youth", label: "Youth" },
 ];
 
+const publicLinks = [
+  { to: "/consular", label: "Consular services" },
+  { to: "/referrals", label: "Referrals" },
+  { to: "/jobs", label: "Jobs" },
+  { to: "/events", label: "Events" },
+];
+
 const linkClass = ({ isActive }) =>
-  `whitespace-nowrap border-b-2 px-2.5 py-3 text-sm font-medium transition ${
-    isActive ? "border-green text-green" : "border-transparent text-ink/80 hover:border-black/20"
+  `tab-link whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition ${
+    isActive ? "active bg-green-50 text-green" : "text-ink/70 hover:bg-black/[0.04] hover:text-ink"
   }`;
+
+const mobileLinkClass = ({ isActive }) =>
+  `rounded-xl px-3 py-3 text-base font-semibold ${isActive ? "bg-green-50 text-green" : "text-ink/80"}`;
 
 export default function Navbar() {
   const { currentMember, state, actions } = useApp();
@@ -43,6 +53,8 @@ export default function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
+  useEffect(() => setOpen(false), [location.pathname]);
+
   function handleLogout() {
     if (location.pathname === "/") {
       clearSession();
@@ -59,141 +71,137 @@ export default function Navbar() {
     setQuery("");
   }
 
+  const links = currentMember ? memberLinks : isAdmin ? [{ to: "/admin", label: "Admin dashboard" }] : publicLinks;
+  const initial = currentMember ? currentMember.fullName.trim()[0] : "A";
+
   return (
-    <header className="sticky top-0 z-40 bg-white">
+    <header className="sticky top-0 z-40">
       <div className="flag-band">
         <span className="s1" />
         <span className="s2" />
         <span className="s3" />
       </div>
-
-      <div className="bg-green-dark text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5">
-            <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/40 text-white">
-              <Icon name="shield" size={15} />
+      <div className="border-b border-green-dark/10 bg-white/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
+          <Link to="/" className="flex min-w-0 flex-shrink-0 items-center gap-3">
+            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-green to-green-dark text-gold shadow-card">
+              <Icon name="shield" size={19} />
             </span>
             <span className="min-w-0 leading-tight">
-              <span className="block whitespace-nowrap text-[15px] font-bold">Diaspora Connect</span>
-              <span className="hidden whitespace-nowrap text-[11px] text-white/70 min-[430px]:block">
+              <span className="block whitespace-nowrap font-display text-[17px] font-extrabold tracking-tight text-green-dark">
+                Diaspora Connect
+              </span>
+              <span className="hidden whitespace-nowrap text-[11px] font-medium text-muted min-[430px]:block">
                 Sierra Leone High Commission, UK
               </span>
             </span>
           </Link>
 
-          <div className="flex flex-shrink-0 items-center gap-2 text-sm sm:gap-3">
+          <nav className="ml-6 hidden items-center gap-0.5 lg:flex" aria-label="Main">
+            {links.map((l) => (
+              <NavLink key={l.to} to={l.to} end={l.to === "/admin"} className={linkClass}>
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="ml-auto flex items-center gap-2">
+            <form onSubmit={handleSearch} className="hidden min-[1360px]:flex">
+              <label className="relative">
+                <span className="sr-only">Search services</span>
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+                  <Icon name="search" size={14} />
+                </span>
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search services"
+                  className="w-44 rounded-full border-[1.5px] border-green-dark/10 bg-cream py-2 pl-9 pr-3 text-sm outline-none transition focus:w-56 focus:border-green focus:bg-white"
+                />
+              </label>
+            </form>
+
             {currentMember && (
-              <>
-                <Link to="/profile" className="hidden font-medium hover:underline sm:inline">
-                  {currentMember.fullName.split(" ")[0]}
-                </Link>
-                <button onClick={handleLogout} className="btn-outline-light whitespace-nowrap px-3 py-1.5 text-xs">
-                  Log out
-                </button>
-              </>
+              <Link
+                to="/profile"
+                className="hidden items-center gap-2 whitespace-nowrap rounded-full py-1 pl-1 pr-3 text-sm font-semibold text-ink hover:bg-black/[0.04] sm:flex"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-sm font-bold text-green-dark">
+                  {initial}
+                </span>
+                {currentMember.fullName.split(" ")[0]}
+              </Link>
             )}
-            {isAdmin && (
-              <button onClick={handleLogout} className="btn-outline-light whitespace-nowrap px-3 py-1.5 text-xs">
-                <span>Log out<span className="hidden sm:inline"> of admin</span></span>
+            {(currentMember || isAdmin) && (
+              <button
+                onClick={handleLogout}
+                className="whitespace-nowrap rounded-full border-[1.5px] border-green-dark/15 px-4 py-2 text-sm font-semibold text-green-dark transition hover:border-green hover:bg-green-50"
+              >
+                <span>Log out<span className="hidden sm:inline">{isAdmin ? " of admin" : ""}</span></span>
               </button>
             )}
             {!currentMember && !isAdmin && (
               <>
-                <Link to="/login" className="hidden font-medium hover:underline sm:inline">
+                <Link to="/login" className="hidden px-3 py-2 text-sm font-semibold text-ink/80 hover:text-green sm:inline">
                   Log in
                 </Link>
-                <Link to="/register" className="btn-outline-light whitespace-nowrap px-3 py-1.5 text-xs">
+                <Link
+                  to="/register"
+                  className="whitespace-nowrap rounded-full bg-green px-4 py-2 text-sm font-semibold text-white shadow-card transition hover:bg-green-dark"
+                >
                   Register
                 </Link>
               </>
             )}
             <button
-              className="rounded p-1.5 lg:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-black/5 lg:hidden"
               onClick={() => setOpen((o) => !o)}
-              aria-label="Menu" aria-expanded={open}
+              aria-label="Menu"
+              aria-expanded={open}
             >
-              <div className="space-y-1">
-                <span className="block h-0.5 w-5 bg-white" />
-                <span className="block h-0.5 w-5 bg-white" />
-                <span className="block h-0.5 w-5 bg-white" />
+              <div className="space-y-1.5">
+                <span className={`block h-0.5 w-5 bg-green-dark transition ${open ? "translate-y-2 rotate-45" : ""}`} />
+                <span className={`block h-0.5 w-5 bg-green-dark transition ${open ? "opacity-0" : ""}`} />
+                <span className={`block h-0.5 w-5 bg-green-dark transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
               </div>
             </button>
           </div>
         </div>
-      </div>
 
-      <div className="hidden border-b border-black/10 lg:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
-          <nav className="flex items-center gap-1">
-            {currentMember &&
-              memberLinks.map((l) => (
-                <NavLink key={l.to} to={l.to} className={linkClass}>
+        {open && (
+          <div className="border-t border-green-dark/10 bg-white px-4 pb-5 pt-3 lg:hidden">
+            <form onSubmit={handleSearch} className="mb-3 flex items-center gap-2">
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search services"
+                className="w-full rounded-full border-[1.5px] border-green-dark/10 bg-cream px-4 py-2.5 text-sm outline-none focus:border-green"
+              />
+              <button type="submit" aria-label="Search" className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green text-white">
+                <Icon name="search" size={15} />
+              </button>
+            </form>
+            <div className="flex flex-col gap-1">
+              {links.map((l) => (
+                <NavLink key={l.to} to={l.to} end={l.to === "/admin"} className={mobileLinkClass}>
                   {l.label}
                 </NavLink>
               ))}
-            {isAdmin && (
-              <NavLink to="/admin" className={linkClass}>
-                Admin dashboard
-              </NavLink>
-            )}
-          </nav>
-          <form onSubmit={handleSearch} className="flex items-center gap-1.5 py-2">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search services…"
-              className="w-48 border border-black/15 bg-sand px-2.5 py-1.5 text-xs text-ink outline-none focus:border-green"
-            />
-            <button type="submit" aria-label="Search" className="rounded border border-black/15 p-1.5 hover:bg-black/5">
-              <Icon name="search" size={14} />
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {open && (
-        <div className="border-t border-black/10 px-4 py-3 lg:hidden">
-          <form onSubmit={handleSearch} className="mb-3 flex items-center gap-1.5">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search services…"
-              className="w-full border border-black/15 bg-sand px-2.5 py-2 text-sm text-ink outline-none"
-            />
-            <button type="submit" className="rounded border border-black/15 p-2">
-              <Icon name="search" size={14} />
-            </button>
-          </form>
-          <div className="flex flex-col gap-1">
-            {currentMember &&
-              memberLinks.map((l) => (
-                <NavLink key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
-                  {l.label}
+              {currentMember && (
+                <NavLink to="/profile" className={mobileLinkClass}>
+                  My profile
                 </NavLink>
-              ))}
-            {currentMember && (
-              <NavLink to="/profile" className={linkClass} onClick={() => setOpen(false)}>
-                My profile
-              </NavLink>
-            )}
-            {isAdmin && (
-              <NavLink to="/admin" className={linkClass} onClick={() => setOpen(false)}>
-                Admin dashboard
-              </NavLink>
-            )}
-            {!currentMember && !isAdmin && (
-              <>
-                <NavLink to="/login" className={linkClass} onClick={() => setOpen(false)}>
-                  Log in
-                </NavLink>
-                <NavLink to="/register" className={linkClass} onClick={() => setOpen(false)}>
-                  Register
-                </NavLink>
-              </>
-            )}
+              )}
+              {!currentMember && !isAdmin && (
+                <>
+                  <NavLink to="/login" className={mobileLinkClass}>Log in</NavLink>
+                  <NavLink to="/register" className={mobileLinkClass}>Register</NavLink>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }
