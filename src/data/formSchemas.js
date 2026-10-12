@@ -28,12 +28,6 @@ export const CONSULAR_FORM_SCHEMAS = {
     { key: "motherName", label: "Mother's full name", type: "text", required: true },
     { key: "currentAddress", label: "Current UK address", type: "textarea", required: true },
     { key: "contactPhone", label: "Contact phone number", type: "text", required: true },
-    {
-      key: "photoUploaded",
-      label: "Passport photo",
-      type: "checkbox",
-      checkboxLabel: "I have a passport-standard photo ready to submit in person/by post",
-    },
   ],
   "Passport Renewal": [
     { key: "fullName", label: "Full legal name (as on passport)", type: "text", required: true },
@@ -71,12 +65,6 @@ export const CONSULAR_FORM_SCHEMAS = {
       options: ["Collect at the High Commission", "Post to my UK address"],
       required: true,
     },
-    {
-      key: "photoUploaded",
-      label: "Photo",
-      type: "checkbox",
-      checkboxLabel: "I have a recent passport-standard photo ready to submit",
-    },
   ],
   "Visa Application": [
     { key: "fullName", label: "Full legal name", type: "text", required: true },
@@ -99,5 +87,42 @@ export const CONSULAR_FORM_SCHEMAS = {
       required: true,
       hint: "e.g. bereavement, urgent family matter, lost/stolen passport abroad",
     },
+  ],
+};
+
+// Documents applicants are asked to upload with each application type.
+const PHOTO = { key: "photo", label: "Passport-standard photo", hint: "Plain light background, face clearly visible.", required: true };
+const ADDRESS = { key: "address", label: "Proof of UK address", hint: "Utility bill, bank statement or tenancy agreement from the last 3 months." };
+
+export const REQUIRED_DOCUMENTS = {
+  "New Passport Application": [
+    { key: "birthCert", label: "Birth certificate", hint: "Scan or clear photo of the full certificate.", required: true },
+    PHOTO,
+    { ...ADDRESS, required: true },
+    { key: "parentId", label: "Parent or guardian ID", hint: "Passport or National ID of a parent (for applicants under 18)." },
+  ],
+  "Passport Renewal": [
+    { key: "oldPassport", label: "Current passport, photo page", hint: "The page with your photo and details.", required: true },
+    PHOTO,
+    ADDRESS,
+    { key: "policeReport", label: "Police report", hint: "Needed only if the passport was lost or stolen." },
+  ],
+  "National ID Renewal": [
+    { key: "oldId", label: "Current National ID card", hint: "Photo of the front and back.", required: true },
+    PHOTO,
+    { ...ADDRESS, required: true },
+  ],
+  "Visa Application": [
+    { key: "passportPage", label: "Passport, photo page", hint: "Must be valid for at least 6 months.", required: true },
+    PHOTO,
+    { key: "invitation", label: "Invitation or sponsor letter", hint: "If you are visiting family, a business or an institution." },
+    { key: "itinerary", label: "Travel itinerary", hint: "Flight booking or planned dates." },
+    { key: "funds", label: "Proof of funds", hint: "Recent bank statement." },
+  ],
+  "Emergency Travel Certificate": [
+    { key: "identity", label: "Proof of identity", hint: "Any passport, ID card or birth certificate, including a copy of a lost passport.", required: true },
+    { key: "emergencyProof", label: "Proof of the emergency", hint: "Death certificate, medical letter, ticket or similar.", required: true },
+    PHOTO,
+    { key: "policeReport", label: "Police report", hint: "If the passport was lost or stolen." },
   ],
 };

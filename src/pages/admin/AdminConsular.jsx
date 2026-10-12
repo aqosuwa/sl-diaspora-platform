@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useApp } from "../../context/AppContext";
 import AdminNav from "../../components/AdminNav";
 import Card from "../../components/Card";
+import { DocumentList } from "../../components/DocumentUploader";
 import StatusPill from "../../components/StatusPill";
 import Modal from "../../components/Modal";
 import EmptyState from "../../components/EmptyState";
@@ -71,6 +72,7 @@ export default function AdminConsular() {
                           ))}
                       </div>
                     )}
+                    <DocumentList documents={c.documents} canAdd={false} />
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     {c.payment && (

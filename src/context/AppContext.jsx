@@ -200,7 +200,7 @@ export function AppProvider({ children }) {
       },
 
       // ---------- consular ----------
-      submitConsularCase(memberId, { type, notes, details, payment }) {
+      submitConsularCase(memberId, { type, notes, details, payment, documents }) {
         const prefix = CASE_PREFIX[type] || "CASE";
         const newCase = {
           id: makeId("case"),
@@ -212,6 +212,7 @@ export function AppProvider({ children }) {
           notes: notes || "",
           details: details || {},
           payment: payment || null,
+          documents: (documents || []).map((d, i) => ({ ...d, id: makeId("doc") })),
           timeline: [
             {
               status: "Submitted",
@@ -227,6 +228,22 @@ export function AppProvider({ children }) {
         };
         update("consularCases", (list) => [newCase, ...list]);
         return newCase;
+      },
+      addCaseDocument(caseId, doc) {
+        update("consularCases", (list) =>
+          list.map((c) =>
+            c.id === caseId
+              ? {
+                  ...c,
+                  documents: [...(c.documents || []), { ...doc, id: makeId("doc"), label: doc.label || "Additional document" }],
+                  timeline: [
+                    ...c.timeline,
+                    { status: c.status, at: new Date().toISOString(), note: `Document added: ${doc.name}.` },
+                  ],
+                }
+              : c
+          )
+        );
       },
       withdrawConsularCase(caseId) {
         update("consularCases", (list) =>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useApp } from "../../context/AppContext";
-import { CASE_TYPES, CONSULAR_FORM_SCHEMAS } from "../../data/formSchemas";
+import { CASE_TYPES, CONSULAR_FORM_SCHEMAS, REQUIRED_DOCUMENTS } from "../../data/formSchemas";
+import DocumentUploader, { DocumentList } from "../../components/DocumentUploader";
 import Card from "../../components/Card";
 import StatusPill from "../../components/StatusPill";
 import EmptyState from "../../components/EmptyState";
@@ -101,6 +102,8 @@ export default function Consular() {
   const [step, setStep] = useState("details"); // details | payment | done
   const [doneCase, setDoneCase] = useState(null);
   const [receipt, setReceipt] = useState(null);
+  const [docs, setDocs] = useState({});
+  const [extras, setExtras] = useState([]);
 
   const schema = CONSULAR_FORM_SCHEMAS[type] || [];
 
@@ -115,6 +118,8 @@ export default function Consular() {
   function changeType(newType) {
     setType(newType);
     setDetails(emptyDetailsFor(newType));
+    setDocs({});
+    setExtras([]);
     setError("");
   }
 
@@ -129,12 +134,23 @@ export default function Consular() {
       setError(`Please complete "${missing.label}" before submitting.`);
       return;
     }
+    const reqDocs = REQUIRED_DOCUMENTS[type] || [];
+    const missingDoc = reqDocs.find((d) => d.required && !docs[d.key]);
+    if (missingDoc) {
+      setError(`Please upload "${missingDoc.label}" before continuing.`);
+      return;
+    }
     setError("");
     setStep("payment");
   }
 
   function handlePaid(payment) {
-    const created = actions.submitConsularCase(currentMember.id, { type, notes, details, payment });
+    const reqDocs = REQUIRED_DOCUMENTS[type] || [];
+    const documents = [
+      ...reqDocs.filter((d) => docs[d.key]).map((d) => ({ ...docs[d.key], label: d.label })),
+      ...extras.map(({ id, ...d }) => ({ ...d, label: "Additional document" })),
+    ];
+    const created = actions.submitConsularCase(currentMember.id, { type, notes, details, payment, documents });
     setDoneCase(created);
     setStep("done");
   }
@@ -231,6 +247,11 @@ export default function Consular() {
                     ))}
                 </dl>
               )}
+              <DocumentList
+                documents={c.documents}
+                canAdd={!["Withdrawn", "Completed", "Rejected"].includes(c.status)}
+                onAdd={(d) => actions.addCaseDocument(c.id, d)}
+              />
               {c.notes && <p className="mt-2 text-sm text-mute">"{c.notes}"</p>}
 
               {c.payment && (
@@ -304,6 +325,8 @@ export default function Consular() {
                 </div>
               ))}
             </div>
+
+            <DocumentUploader required={REQUIRED_DOCUMENTS[type] || []} docs={docs} setDocs={setDocs} extras={extras} setExtras={setExtras} />
 
             <Field label="Anything else caseworkers should know? (optional)">
               <Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
